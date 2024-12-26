@@ -24,3 +24,29 @@ exports.register = async (req, res) => {
         });
     }
 }
+
+exports.login = async (req, res) => {
+    try {
+        const {email, password} = req.body;
+        const user = await User.findOne({ email });
+        if (!user) {
+            return res.status(400).json({
+                message: 'Email not registered!'
+            })
+        }
+        const validPassword = await bcrypt.compare(password, user.password_hash);
+        if (!validPassword) {
+            return res.status(400).json({
+                message: 'Wrong Password!'
+            })
+        }
+        const token = generateToken(user);
+        res.status(200).json({
+            token: token
+        })
+    } catch (error) {
+        res.status(500).json({
+            error: error.message
+        })
+    }
+}
