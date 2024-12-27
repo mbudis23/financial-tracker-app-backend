@@ -127,3 +127,24 @@ exports.getMonthlyReport = async (req, res) => {
         });
     }
 }
+
+exports.getYearlyReport = async (req, res) => {
+    try {
+        const startOfYear = new Date(new Date().getFullYear(), 0, 1);
+        const endOfYear = new Date(new Date().getFullYear(), 11, 31);
+        const transactions = await Transaction.find({
+            user_id: req.user.userId,
+            date: {
+                $gte: startOfYear, 
+                $lte: endOfYear
+            },
+        });
+        res.status(201).json({
+            transactions
+        });
+    } catch (error) {
+        res.status(500).json({
+            message: error.message
+        })
+    }
+}
