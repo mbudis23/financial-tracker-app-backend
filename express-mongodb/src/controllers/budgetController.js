@@ -33,3 +33,27 @@ exports.createBudget = async (req, res) => {
         });
     }
 }
+
+exports.updateBudgetById = async (req, res) => {
+    try {
+        const updatedBudget = await Budget.findOneAndUpdate(
+            {
+                _id: req.params.id,
+                user_id: req.user.userId 
+            }, 
+            req.body, 
+            {
+                new: true
+            }
+        );
+        if (!updatedBudget) {
+            return res.status(404).json({
+                message: 'Budget not found.'
+            });
+        }
+    } catch (error) {
+        res.status(500).json({
+            message: error.message
+        })
+    }
+}
