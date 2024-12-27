@@ -68,9 +68,33 @@ exports.updateTransactionById = async (req, res) => {
                 message: 'Transaction not found.'
             });
         };
+        res.status(200).json({
+            message: 'Update transaction successfully!'
+        });
     } catch (error){
         res.status(400).json({
             message: error.message
         });
+    }
+}
+
+exports.deleteTransactionById = async (req, res) => {
+    try {
+        const deletedTransaction = await Transaction.findOneAndDelete({
+            _id: req.params.id,
+            user_id: req.user.userId
+        })
+        if (!deletedTransaction) {
+            return res.status(404).json({
+                message: 'Transaction not found.'
+            });
+        }
+        res.status(200).json({
+            message: 'Delete a transaction successfully!'
+        })
+    } catch (error) {
+        res.status(500).json({
+            message: error.message
+        })
     }
 }
