@@ -7,6 +7,7 @@ const connectDB = require("./config/db");
 const authRoutes = require('./routes/authRoute');
 const transactionRoute = require('./routes/transactionRoute');
 const budgetRoute = require('./routes/budgetRoute');
+const reportRoute = require('./routes/reportRoute');
 const { authenticate } = require('./middlewares/authMiddleware');
 
 dotenv.config();
@@ -16,9 +17,10 @@ app.use(bodyParser.json());
 
 connectDB;
 
-app.use('/auth', authRoutes);
-app.use('/transaction', authenticate, transactionRoute);
-app.use('/budget', authenticate, budgetRoute);
+app.use('/', authRoutes);
+app.use('/transactions', authenticate, transactionRoute);
+app.use('/budgets', authenticate, budgetRoute);
+app.use('/reports', authenticate, reportRoute)
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

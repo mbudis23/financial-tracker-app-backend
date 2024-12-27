@@ -98,3 +98,32 @@ exports.deleteTransactionById = async (req, res) => {
         })
     }
 }
+
+exports.getMonthlyReport = async (req, res) => {
+    try {
+        const startOfMonth = new Date(
+            new Date().getFullYear, 
+            new Date().getMonth(), 
+            1
+        );
+        const endOfMonth = new Date(
+            new Date().getFullYear(),
+            new Date().getMonth +1,
+            0
+        );
+        const transaction = await Transaction.find({
+            user_id: req.user.userId,
+            date: {
+                $gte: startOfMonth,
+                $lte: endOfMonth
+            }
+        });
+        res.status(201).json({
+            transaction
+        });
+    } catch (error) {
+        res.status(500).json({
+            message: error.message
+        });
+    }
+}
