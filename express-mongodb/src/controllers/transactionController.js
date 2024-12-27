@@ -37,3 +37,21 @@ exports.createTransaction = async (req, res) => {
         });
     }
 }
+
+exports.getTransactionById = async (req, res) => {
+    try {
+        const transaction = await Transaction.findOne({
+            _id: req.params.id,
+            user_id: req.user.userId
+        });
+        if (!transaction) {
+            res.json({
+                transaction
+            })
+        }
+    } catch (error) {
+        res.status(500).json({
+            message: error.message
+        })
+    }
+}
