@@ -55,3 +55,22 @@ exports.getTransactionById = async (req, res) => {
         })
     }
 }
+
+exports.updateTransactionById = async (req, res) => {
+    try {
+        const updatedTransaction = await Transaction.findOneAndUpdate(
+            {_id: req.params.id, user_id: req.user.userId},
+            req.body,
+            {new: true}
+        );
+        if (!updatedTransaction) {
+            return res.status(404).json({
+                message: 'Transaction not found.'
+            });
+        };
+    } catch (error){
+        res.status(400).json({
+            message: error.message
+        });
+    }
+}
