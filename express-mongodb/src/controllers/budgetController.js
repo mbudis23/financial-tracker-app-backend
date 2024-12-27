@@ -14,3 +14,22 @@ exports.getAllBudgetById = async (req, res) => {
         })
     }
 }
+
+exports.createBudget = async (req, res) => {
+    try {
+        const { monthly_limit } = req.body;
+        const newBudget = new Budget({
+            user_id: req.user.userId,
+            monthly_limit
+        });
+        await newBudget.save();
+        res.status(201).json({
+            message: 'Create budget successfully!',
+            monthly_limit
+        });
+    } catch (error) {
+        res.status(400).json({
+            message: error.message
+        });
+    }
+}
