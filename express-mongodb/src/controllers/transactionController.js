@@ -1,3 +1,4 @@
+const transaction = require('../models/transaction');
 const Transaction = require('../models/transaction');
 
 exports.getAllTransactionById = async (req, res) => {
@@ -14,3 +15,25 @@ exports.getAllTransactionById = async (req, res) => {
         });
     }
 };
+
+exports.createTransaction = async (req, res) => {
+    try {
+        const {amount, type, date, description} = req.body;
+        const newTransaction = new Transaction({
+            user_id: req.user.userId,
+            amount,
+            type,
+            date,
+            description
+        });
+        await newTransaction.save();
+        res.status(201).json({
+            message: "Create transaction successfully!",
+            newTransaction
+        })
+    } catch (error) {
+        res.status(400).json({
+            message: error.message
+        });
+    }
+}
