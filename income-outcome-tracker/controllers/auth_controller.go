@@ -50,23 +50,27 @@ func Login(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// Autentikasi user
-	user, err := services.AuthenticateUser(credentials.Email, credentials.Password)
+	userId, user, err := services.AuthenticateUser(credentials.Email, credentials.Password)
 	if err != nil {
 		utils.RespondWithError(w, http.StatusUnauthorized, err.Error())
 		return
 	}
 
 	// Generate JWT token
-	token, err := utils.GenerateJWT(user.Email)
+	token, err := utils.GenerateJWT(userId)
 	if err != nil {
 		utils.RespondWithError(w, http.StatusInternalServerError, "Failed to generate token")
 		return
 	}
 
-	// Kirimkan respons sukses dengan token
+	// Kirimkan respons sukses dengan token dan userId
 	utils.RespondWithJSON(w, http.StatusOK, map[string]interface{}{
 		"message": "Login successful",
 		"token":   token,
-		"user":    user,
+		"user": map[string]interface{}{
+			"userId": userId,
+			"email":  user.Email,
+			"name":   user.Name,
+		},
 	})
 }

@@ -5,6 +5,7 @@ import (
 	"errors"
 	"income-outcome-tracker/config"
 	"income-outcome-tracker/models"
+	"log"
 
 	"golang.org/x/crypto/bcrypt"
 )
@@ -40,31 +41,55 @@ func RegisterUser(user models.User) error {
 	return nil
 }
 
-func AuthenticateUser(email, password string) (*models.User, error) {
+func AuthenticateUser(email, password string) (string, models.User, error) {
 	ctx := context.Background()
 	client, err := config.FirebaseApp.Database(ctx)
 	if err != nil {
-		return nil, errors.New("failed to connect to Firebase")
+		log.Printf("Error connecting to Firebase: %v", err)
+		return "", models.User{}, errors.New("failed to connect to Firebase")
 	}
 
-	// Ambil user berdasarkan email
-	var users map[string]models.User
-	ref := client.NewRef("users")
-	if err := ref.Get(ctx, &users); err != nil {
-		return nil, errors.New("failed to fetch users")
+	// Reference ke database users
+	usersRef := client.NewRef("users")
+
+	// Query untuk mencari user berdasarkan email
+	var existingUsers map[string]models.User
+	err = usersRef.OrderByChild("email").EqualTo(email).Get(ctx, &existingUsers)
+	if err != nil {
+		log.Printf("Error querying users: %v", err)
+		return "", models.User{}, errors.New("failed to query existing users")
 	}
 
-	// Cari user dengan email yang cocok
-	for _, user := range users {
-		if user.Email == email {
-			// Cek password
-			err := bcrypt.CompareHashAndPassword([]byte(user.PasswordHash), []byte(password))
-			if err != nil {
-				return nil, errors.New("invalid email or password")
-			}
-			return &user, nil
-		}
+	// Log hasil query untuk debugging
+	log.Printf("Query result for email '%s': %+v", email, existingUsers)
+
+	// Jika user tidak ditemukan, kembalikan error
+	if len(existingUsers) == 0 {
+		log.Printf("No user found with email: %s", email)
+		return "", models.User{}, errors.New("invalid email or password")
 	}
 
-	return nil, errors.New("invalid email or password")
+	// Ambil user pertama dari hasil query dan ID-nya
+	var userId string
+	var user models.User
+	for id, u := range existingUsers {
+		userId = id
+		user = u
+		break
+	}
+
+	// Log user yang ditemukan
+	log.Printf("User found: ID = %s, Email = %s", userId, user.Email)
+
+	// Verifikasi password
+	err = bcrypt.CompareHashAndPassword([]byte(user.PasswordHash), []byte(password))
+	if err != nil {
+		log.Printf("Password mismatch for email: %s", email)
+		return "", models.User{}, errors.New("invalid email or password")
+	}
+
+	// Log jika login berhasil
+	log.Printf("User authenticated successfully: ID = %s, Email = %s", userId, user.Email)
+
+	return userId, user, nil
 }
