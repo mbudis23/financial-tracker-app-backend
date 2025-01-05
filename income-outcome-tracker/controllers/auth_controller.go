@@ -24,8 +24,12 @@ func Register(w http.ResponseWriter, r *http.Request) {
 
 	err = services.RegisterUser(user)
 	if err != nil {
-		log.Printf("Error registering user: %v", err) // Tambahkan log error
-		utils.RespondWithError(w, http.StatusInternalServerError, err.Error())
+		if err.Error() == "user with this email already exists" {
+			utils.RespondWithError(w, http.StatusConflict, err.Error())
+		} else {
+			log.Printf("Error registering user: %v", err) // Tambahkan log error
+			utils.RespondWithError(w, http.StatusInternalServerError, err.Error())
+		}
 		return
 	}
 
@@ -53,7 +57,7 @@ func Login(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// Generate JWT token
-	token, err := utils.GenerateJWT(user.UserID)
+	token, err := utils.GenerateJWT(user.Email)
 	if err != nil {
 		utils.RespondWithError(w, http.StatusInternalServerError, "Failed to generate token")
 		return

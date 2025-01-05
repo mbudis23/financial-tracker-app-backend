@@ -17,6 +17,19 @@ func RegisterUser(user models.User) error {
 	}
 
 	usersRef := client.NewRef("users")
+
+	// Query untuk mencari user dengan email yang sama
+	var existingUsers map[string]models.User
+	err = usersRef.OrderByChild("email").EqualTo(user.Email).Get(ctx, &existingUsers)
+	if err != nil {
+		return errors.New("failed to query existing users")
+	}
+
+	// Cek apakah ada user dengan email yang sama
+	if len(existingUsers) > 0 {
+		return errors.New("user with this email already exists")
+	}
+
 	hashedPassword, _ := bcrypt.GenerateFromPassword([]byte(user.PasswordHash), bcrypt.DefaultCost)
 	user.PasswordHash = string(hashedPassword)
 
