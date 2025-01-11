@@ -309,17 +309,9 @@ https://financial-tracker-app-backend.vercel.app/
 
 ---
 
-## Logging
-
-- **Informasi:** Semua log aktivitas dicatat di konsol dan file `logs/combined.log`.
-- **Error:** Semua error dicatat di file `logs/error.log`.
-
----
-
 ## Catatan
 
 - Gunakan [Postman](https://www.postman.com/) atau alat serupa untuk menguji API ini.
-- Pastikan MongoDB berjalan di komputer Anda sebelum menjalankan server.
 
 ---
 
