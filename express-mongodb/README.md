@@ -5,10 +5,12 @@ API ini digunakan untuk melacak transaksi, anggaran, dan menghasilkan laporan ke
 ## Fitur
 
 1. **Autentikasi:**
+
    - Registrasi pengguna.
    - Login pengguna dengan token JWT.
 
 2. **Manajemen Transaksi:**
+
    - Mendapatkan semua transaksi.
    - Menambahkan transaksi baru.
    - Memperbarui transaksi berdasarkan ID.
@@ -16,6 +18,7 @@ API ini digunakan untuk melacak transaksi, anggaran, dan menghasilkan laporan ke
    - Mendapatkan transaksi berdasarkan ID.
 
 3. **Manajemen Anggaran (Budget):**
+
    - Mendapatkan semua anggaran.
    - Menambahkan anggaran baru.
    - Memperbarui anggaran berdasarkan ID.
@@ -36,31 +39,11 @@ API ini digunakan untuk melacak transaksi, anggaran, dan menghasilkan laporan ke
 
 ---
 
-## Instalasi
+## Domain
 
-1. Clone repository ini:
-   ```bash
-   git clone https://github.com/username/financial-tracker-api.git
-   cd financial-tracker-api
-   ```
-
-2. Install dependensi:
-   ```bash
-   npm install
-   ```
-
-3. Buat file `.env` di root project Anda dan tambahkan variabel-variabel berikut:
-   ```
-   NODE_ENV=development
-   PORT=5000
-   MONGO_URI=mongodb://localhost:27017/financial-tracker
-   JWT_SECRET=your_jwt_secret_key
-   ```
-
-4. Jalankan server:
-   ```bash
-   npm start
-   ```
+```bash
+https://financial-tracker-app-backend.vercel.app/
+```
 
 ---
 
@@ -69,35 +52,37 @@ API ini digunakan untuk melacak transaksi, anggaran, dan menghasilkan laporan ke
 ### **1. Autentikasi**
 
 #### **Registrasi**
+
 - **Endpoint:** `POST /register`
 - **Body Request:**
   ```json
   {
-      "name": "John Doe",
-      "email": "johndoe@example.com",
-      "password": "password123"
+    "name": "John Doe",
+    "email": "johndoe@example.com",
+    "password": "password123"
   }
   ```
 - **Response:**
   ```json
   {
-      "message": "User registered successfully!"
+    "message": "User registered successfully!"
   }
   ```
 
 #### **Login**
+
 - **Endpoint:** `POST /login`
 - **Body Request:**
   ```json
   {
-      "email": "johndoe@example.com",
-      "password": "password123"
+    "email": "johndoe@example.com",
+    "password": "password123"
   }
   ```
 - **Response:**
   ```json
   {
-      "message": "Login successful"
+    "message": "Login successful"
   }
   ```
   > **Note:** Token JWT akan disimpan di cookie.
@@ -107,6 +92,7 @@ API ini digunakan untuk melacak transaksi, anggaran, dan menghasilkan laporan ke
 ### **2. Manajemen Transaksi**
 
 #### **Mendapatkan Semua Transaksi**
+
 - **Endpoint:** `GET /transactions`
 - **Header:**
   ```
@@ -115,20 +101,21 @@ API ini digunakan untuk melacak transaksi, anggaran, dan menghasilkan laporan ke
 - **Response:**
   ```json
   {
-      "transactions": [
-          {
-              "_id": "63b6f8e2a2c8e8f9a9e1d123",
-              "user_id": "123456",
-              "amount": 1000,
-              "type": "income",
-              "date": "2025-01-01T10:00:00.000Z",
-              "description": "Salary"
-          }
-      ]
+    "transactions": [
+      {
+        "_id": "63b6f8e2a2c8e8f9a9e1d123",
+        "user_id": "123456",
+        "amount": 1000,
+        "type": "income",
+        "date": "2025-01-01T10:00:00.000Z",
+        "description": "Salary"
+      }
+    ]
   }
   ```
 
 #### **Menambahkan Transaksi Baru**
+
 - **Endpoint:** `POST /transactions`
 - **Header:**
   ```
@@ -137,28 +124,29 @@ API ini digunakan untuk melacak transaksi, anggaran, dan menghasilkan laporan ke
 - **Body Request:**
   ```json
   {
-      "amount": 1000,
-      "type": "income",
-      "date": "2025-01-01T10:00:00.000Z",
-      "description": "Salary"
+    "amount": 1000,
+    "type": "income",
+    "date": "2025-01-01T10:00:00.000Z",
+    "description": "Salary"
   }
   ```
 - **Response:**
   ```json
   {
-      "message": "Transaction created successfully!",
-      "transaction": {
-          "_id": "63b6f8e2a2c8e8f9a9e1d123",
-          "user_id": "123456",
-          "amount": 1000,
-          "type": "income",
-          "date": "2025-01-01T10:00:00.000Z",
-          "description": "Salary"
-      }
+    "message": "Transaction created successfully!",
+    "transaction": {
+      "_id": "63b6f8e2a2c8e8f9a9e1d123",
+      "user_id": "123456",
+      "amount": 1000,
+      "type": "income",
+      "date": "2025-01-01T10:00:00.000Z",
+      "description": "Salary"
+    }
   }
   ```
 
 #### **Memperbarui Transaksi**
+
 - **Endpoint:** `PUT /transactions/:id`
 - **Header:**
   ```
@@ -167,26 +155,27 @@ API ini digunakan untuk melacak transaksi, anggaran, dan menghasilkan laporan ke
 - **Body Request:**
   ```json
   {
-      "amount": 1500,
-      "description": "Updated Salary"
+    "amount": 1500,
+    "description": "Updated Salary"
   }
   ```
 - **Response:**
   ```json
   {
-      "message": "Transaction updated successfully!",
-      "transaction": {
-          "_id": "63b6f8e2a2c8e8f9a9e1d123",
-          "user_id": "123456",
-          "amount": 1500,
-          "type": "income",
-          "date": "2025-01-01T10:00:00.000Z",
-          "description": "Updated Salary"
-      }
+    "message": "Transaction updated successfully!",
+    "transaction": {
+      "_id": "63b6f8e2a2c8e8f9a9e1d123",
+      "user_id": "123456",
+      "amount": 1500,
+      "type": "income",
+      "date": "2025-01-01T10:00:00.000Z",
+      "description": "Updated Salary"
+    }
   }
   ```
 
 #### **Menghapus Transaksi**
+
 - **Endpoint:** `DELETE /transactions/:id`
 - **Header:**
   ```
@@ -195,7 +184,7 @@ API ini digunakan untuk melacak transaksi, anggaran, dan menghasilkan laporan ke
 - **Response:**
   ```json
   {
-      "message": "Transaction deleted successfully!"
+    "message": "Transaction deleted successfully!"
   }
   ```
 
@@ -204,6 +193,7 @@ API ini digunakan untuk melacak transaksi, anggaran, dan menghasilkan laporan ke
 ### **3. Manajemen Anggaran (Budget)**
 
 #### **Mendapatkan Semua Anggaran**
+
 - **Endpoint:** `GET /budgets`
 - **Header:**
   ```
@@ -212,17 +202,18 @@ API ini digunakan untuk melacak transaksi, anggaran, dan menghasilkan laporan ke
 - **Response:**
   ```json
   {
-      "budgets": [
-          {
-              "_id": "63b6f8e2a2c8e8f9a9e1d124",
-              "user_id": "123456",
-              "monthly_limit": 5000
-          }
-      ]
+    "budgets": [
+      {
+        "_id": "63b6f8e2a2c8e8f9a9e1d124",
+        "user_id": "123456",
+        "monthly_limit": 5000
+      }
+    ]
   }
   ```
 
 #### **Menambahkan Anggaran Baru**
+
 - **Endpoint:** `POST /budgets`
 - **Header:**
   ```
@@ -231,22 +222,23 @@ API ini digunakan untuk melacak transaksi, anggaran, dan menghasilkan laporan ke
 - **Body Request:**
   ```json
   {
-      "monthly_limit": 5000
+    "monthly_limit": 5000
   }
   ```
 - **Response:**
   ```json
   {
-      "message": "Budget created successfully!",
-      "budget": {
-          "_id": "63b6f8e2a2c8e8f9a9e1d124",
-          "user_id": "123456",
-          "monthly_limit": 5000
-      }
+    "message": "Budget created successfully!",
+    "budget": {
+      "_id": "63b6f8e2a2c8e8f9a9e1d124",
+      "user_id": "123456",
+      "monthly_limit": 5000
+    }
   }
   ```
 
 #### **Memperbarui Anggaran**
+
 - **Endpoint:** `PUT /budgets/:id`
 - **Header:**
   ```
@@ -255,13 +247,13 @@ API ini digunakan untuk melacak transaksi, anggaran, dan menghasilkan laporan ke
 - **Body Request:**
   ```json
   {
-      "monthly_limit": 6000
+    "monthly_limit": 6000
   }
   ```
 - **Response:**
   ```json
   {
-      "message": "Budget updated successfully!"
+    "message": "Budget updated successfully!"
   }
   ```
 
@@ -270,6 +262,7 @@ API ini digunakan untuk melacak transaksi, anggaran, dan menghasilkan laporan ke
 ### **4. Laporan**
 
 #### **Laporan Bulanan**
+
 - **Endpoint:** `GET /reports/monthly`
 - **Header:**
   ```
@@ -278,20 +271,21 @@ API ini digunakan untuk melacak transaksi, anggaran, dan menghasilkan laporan ke
 - **Response:**
   ```json
   {
-      "transactions": [
-          {
-              "_id": "63b6f8e2a2c8e8f9a9e1d123",
-              "user_id": "123456",
-              "amount": 1000,
-              "type": "income",
-              "date": "2025-01-01T10:00:00.000Z",
-              "description": "Salary"
-          }
-      ]
+    "transactions": [
+      {
+        "_id": "63b6f8e2a2c8e8f9a9e1d123",
+        "user_id": "123456",
+        "amount": 1000,
+        "type": "income",
+        "date": "2025-01-01T10:00:00.000Z",
+        "description": "Salary"
+      }
+    ]
   }
   ```
 
 #### **Laporan Tahunan**
+
 - **Endpoint:** `GET /reports/yearly`
 - **Header:**
   ```
@@ -300,16 +294,16 @@ API ini digunakan untuk melacak transaksi, anggaran, dan menghasilkan laporan ke
 - **Response:**
   ```json
   {
-      "transactions": [
-          {
-              "_id": "63b6f8e2a2c8e8f9a9e1d123",
-              "user_id": "123456",
-              "amount": 1000,
-              "type": "income",
-              "date": "2025-01-01T10:00:00.000Z",
-              "description": "Salary"
-          }
-      ]
+    "transactions": [
+      {
+        "_id": "63b6f8e2a2c8e8f9a9e1d123",
+        "user_id": "123456",
+        "amount": 1000,
+        "type": "income",
+        "date": "2025-01-01T10:00:00.000Z",
+        "description": "Salary"
+      }
+    ]
   }
   ```
 
@@ -329,5 +323,4 @@ API ini digunakan untuk melacak transaksi, anggaran, dan menghasilkan laporan ke
 
 ---
 
-Jika Anda memiliki pertanyaan atau menemukan masalah, silakan buat *issue* di repository ini! 🎉
-
+Jika Anda memiliki pertanyaan atau menemukan masalah, silakan buat _issue_ di repository ini! 🎉
