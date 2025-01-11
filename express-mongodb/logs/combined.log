@@ -178,3 +178,4 @@
 [2025-01-09T13:16:59.618Z] INFO: ::1 - - [09/Jan/2025:13:16:59 +0000] "GET /reports/monthly HTTP/1.1" 200 357 "-" "PostmanRuntime/7.43.0"
 [2025-01-09T13:17:06.743Z] INFO: User authenticated successfully: muhammadbudisetiawan23@gmail.com
 [2025-01-09T13:17:06.746Z] INFO: ::1 - - [09/Jan/2025:13:17:06 +0000] "GET /reports/yearly HTTP/1.1" 201 357 "-" "PostmanRuntime/7.43.0"
+[2025-01-11T07:02:25.643Z] INFO: MongoDB connected successfully
