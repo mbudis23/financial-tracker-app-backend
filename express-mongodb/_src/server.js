@@ -18,7 +18,13 @@ const { authenticate } = require("./middlewares/authMiddleware");
 dotenv.config();
 
 const app = express();
-app.use(cors());
+const corsOptions = {
+  origin: "*", // Mengizinkan semua origin
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"], // Metode yang diizinkan
+  allowedHeaders: ["Content-Type", "Authorization"], // Header yang diizinkan
+};
+
+app.use(cors(corsOptions));
 
 // Middleware untuk body parsing
 app.use(bodyParser.json());
