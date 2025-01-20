@@ -13,6 +13,7 @@ const transactionRoute = require("./routes/transactionRoute");
 const budgetRoute = require("./routes/budgetRoute");
 const reportRoute = require("./routes/reportRoute");
 const { authenticate } = require("./middlewares/authMiddleware");
+const helmet = require("helmet");
 
 // Load environment variables
 dotenv.config();
@@ -23,7 +24,16 @@ const corsOptions = {
   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"], // Metode yang diizinkan
   allowedHeaders: ["Content-Type", "Authorization"], // Header yang diizinkan
 };
-
+app.use(
+  helmet.contentSecurityPolicy({
+    directives: {
+      defaultSrc: ["'self'"], // Mengizinkan sumber daya dari server Anda
+      imgSrc: ["'self'", "https://financial-tracker-app-backend.vercel.app"], // Mengizinkan gambar dari server Anda dan URL favicon
+      scriptSrc: ["'self'"], // Sesuaikan jika ada skrip eksternal
+      styleSrc: ["'self'"], // Sesuaikan jika ada CSS eksternal
+    },
+  })
+);
 app.use(cors(corsOptions));
 
 // Middleware untuk body parsing
