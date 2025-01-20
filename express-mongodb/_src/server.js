@@ -5,6 +5,7 @@ const connectDB = require("./config/db"); // Pastikan path ini benar
 const logger = require("./utils/logger"); // Import logger yang telah Anda buat
 const morgan = require("morgan");
 const cookieParser = require("cookie-parser");
+const cors = require("cors");
 
 // Import routes dan middleware
 const authRoutes = require("./routes/authRoute");
@@ -17,6 +18,7 @@ const { authenticate } = require("./middlewares/authMiddleware");
 dotenv.config();
 
 const app = express();
+app.use(cors());
 
 // Middleware untuk body parsing
 app.use(bodyParser.json());
