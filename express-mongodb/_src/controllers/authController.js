@@ -114,7 +114,7 @@ exports.login = async (req, res) => {
     logger.info(`User logged in successfully: ${email}`);
     res.status(200).json({
       message: "Login successful",
-      // token: token, // Kembalikan token jika dibutuhkan oleh client
+      token: token, // Kembalikan token jika dibutuhkan oleh client
     });
   } catch (error) {
     logger.error(`Unexpected error during login: ${error.message}`, {
