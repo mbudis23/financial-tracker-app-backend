@@ -101,15 +101,15 @@ exports.login = async (req, res) => {
     const token = generateToken(user);
 
     // Set token di cookie
-    res.cookie("token", token, {
-      httpOnly: false,
-      secure: process.env.NODE_ENV === "production", // Gunakan secure hanya di production
-      sameSite: 'None',
-      partitioned: true,
-      domain: undefined,
-      // sameSite: 'strict', // Meningkatkan keamanan CSRF
-      maxAge: 24 * 60 * 60 * 1000, // Token berlaku selama 1 hari
-    });
+    // res.cookie("token", token, {
+    //   httpOnly: false,
+    //   secure: process.env.NODE_ENV === "production", // Gunakan secure hanya di production
+    //   sameSite: 'None',
+    //   partitioned: true,
+    //   domain: undefined,
+    //   // sameSite: 'strict', // Meningkatkan keamanan CSRF
+    //   maxAge: 24 * 60 * 60 * 1000, // Token berlaku selama 1 hari
+    // });
 
     logger.info(`User logged in successfully: ${email}`);
     res.status(200).json({
