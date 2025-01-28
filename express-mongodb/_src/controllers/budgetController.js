@@ -196,7 +196,6 @@ exports.deleteBudgetById = async (req, res) => {
       user_id: req.user.userId,
     });
 
-    // Jika budget tidak ditemukan
     if (!deletedBudget) {
       logger.info(
         `Budget not found or unauthorized attempt to delete. User: ${req.user.userId}, Budget ID: ${req.params.id}`
