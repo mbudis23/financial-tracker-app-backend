@@ -179,3 +179,54 @@ exports.updateBudgetById = async (req, res) => {
     });
   }
 };
+
+exports.deleteBudgetById = async (req, res) => {
+  try {
+    if (!req.user || !req.user.userId) {
+      logger.warn(
+        "User ID not found in request. Authentication might have failed."
+      );
+      return res.status(400).json({
+        message: "User ID is required to delete a budget.",
+      });
+    }
+
+    const deletedBudget = await Budget.findOneAndDelete({
+      _id: req.params.id,
+      user_id: req.user.userId,
+    });
+
+    // Jika budget tidak ditemukan
+    if (!deletedBudget) {
+      logger.info(
+        `Budget not found or unauthorized attempt to delete. User: ${req.user.userId}, Budget ID: ${req.params.id}`
+      );
+      return res.status(404).json({
+        message:
+          "Budget not found or you do not have permission to delete this budget.",
+      });
+    }
+
+    logger.info(
+      `Budget deleted successfully. User: ${req.user.userId}, Budget ID: ${req.params.id}`
+    );
+    res.status(200).json({
+      message: "Budget deleted successfully!",
+    });
+  } catch (error) {
+    logger.error(
+      `Error deleting budget. User: ${
+        req.user?.userId || "unknown"
+      }, Budget ID: ${req.params.id}`,
+      {
+        message: error.message,
+        stack: error.stack,
+      }
+    );
+
+    res.status(500).json({
+      message:
+        "An unexpected error occurred while deleting the budget. Please try again later.",
+    });
+  }
+};
